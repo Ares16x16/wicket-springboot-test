@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app
+    version="4.0"
+    xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+    xmlns:javaee="http://xmlns.jcp.org/xml/ns/javaee"
+    xmlns:xml="http://www.w3.org/XML/1998/namespace"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
+  <display-name>Archetype Created Web Application</display-name>
+  <filter>
+        <filter-name>Wicket Tutorials</filter-name>
+        <filter-class>org.apache.wicket.protocol.http.WicketFilter</filter-class>
+        <init-param>
+            <param-name>applicationClassName</param-name>
+            <param-value>com.tutorial.modelchain.WicketApplication</param-value>
+        </init-param>
+        <init-param>
+            <param-name>filterMappingUrlPattern</param-name>
+            <param-value>/*</param-value>
+        </init-param>
+    </filter>
+    
+    <filter-mapping>
+        <filter-name>Wicket Tutorials</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+</web-app>
