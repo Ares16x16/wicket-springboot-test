@@ -2,6 +2,9 @@ package com.tutorial.modelchain;
 
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
+import org.apache.wicket.markup.head.CssHeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.request.resource.PackageResourceReference;
 
 @AuthorizeInstantiation("USER")
 public class HomePage extends AuthenticatedWebPage {
@@ -39,6 +42,12 @@ public class HomePage extends AuthenticatedWebPage {
                 setResponsePage(LoginPage.class);
             }
         });
-
     }
+    
+    @Override
+        public void renderHead(IHeaderResponse response) {
+            super.renderHead(response);
+            response.render(CssHeaderItem.forReference(
+                new PackageResourceReference(LoginPage.class, "homepage.css")));
+        }
 }

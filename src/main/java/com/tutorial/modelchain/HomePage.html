@@ -3,12 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <title>Home</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
-  <h2>Welcome to the Demo</h2>
-  <button wicket:id="toPersons">Go to Persons</button>
-  <button wicket:id="toUsers">Go to Hibernate Users</button>
-  <button wicket:id="toAnother">Go to AnotherPage</button>
-  <button wicket:id="logout">Logout</button>
+  <div class="container">
+    <h2>Welcome to the Demo</h2>
+    <button wicket:id="toPersons" class="btn btn-primary">Go to Persons</button>
+    <button wicket:id="toUsers" class="btn btn-secondary">Go to Hibernate Users</button>
+    <button wicket:id="toAnother" class="btn btn-info">Go to AnotherPage</button>
+    <button wicket:id="logout" class="btn btn-danger">Logout</button>
+  </div>
 </body>
 </html>
