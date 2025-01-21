@@ -1,0 +1,38 @@
+# Maven target directory
+/target/
+
+# Eclipse specific files
+/.classpath
+/.project
+/.settings/
+
+# IntelliJ specific files
+/.idea/
+/*.iml
+
+# Logs
+/logs/
+/*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Dependency directories
+/node_modules/
+/bower_components/
+
+# Compiled class files
+/classes/
+/*.class
+
+# Generated files
+/generated/
+/out/
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+*.bak
+*.orig
