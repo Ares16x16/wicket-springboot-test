@@ -1,0 +1,116 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <!-- Spring Boot Parent -->
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>3.4.1</version>
+    <relativePath/> <!-- lookup parent from repository -->
+  </parent>
+
+  <groupId>com.acm.tutorials</groupId>
+  <artifactId>Wicket-Tutorials</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
+  <name>Wicket-Tutorials Spring Boot Webapp</name>
+  <description>Example Wicket 10 + Spring Boot 3 project</description>
+
+  <properties>
+    <!-- Java 17 -->
+    <java.version>17</java.version>
+    <!-- Wicket 10 (ensure this matches your needs, e.g., 10.2.x) -->
+    <wicket.version>10.3.0</wicket.version>
+  </properties>
+
+  <dependencies>
+    <!-- Spring Boot Web Starter for servlet container + web essentials -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+
+    <!-- Wicket core -->
+    <dependency>
+      <groupId>org.apache.wicket</groupId>
+      <artifactId>wicket-core</artifactId>
+      <version>${wicket.version}</version>
+    </dependency>
+
+    <!-- Wicket Spring integration (use version matching Wicket 10 if available) -->
+    <dependency>
+      <groupId>org.apache.wicket</groupId>
+      <artifactId>wicket-spring</artifactId>
+      <version>${wicket.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.wicket</groupId>
+      <artifactId>wicket-util</artifactId>
+      <version>${wicket.version}</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.apache.wicket</groupId>
+        <artifactId>wicket-auth-roles</artifactId>
+        <version>${wicket.version}</version>
+    </dependency>
+
+    <!-- Spring Data JPA (managed by Spring Boot, but can pin a specific version if needed) -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
+
+    <!-- login -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-security</artifactId>
+    </dependency>
+
+    <!-- H2 Database for testing or in-memory runtime -->
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    
+    <!-- MyBatis integration (MyBatis Spring Boot starter for convenience) -->
+    <dependency>
+      <groupId>org.mybatis.spring.boot</groupId>
+      <artifactId>mybatis-spring-boot-starter</artifactId>
+      <version>3.0.1</version>
+    </dependency>
+  
+
+    <!-- JUnit (Spring Boot adds JUnit automatically, but you can keep a direct reference) -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <finalName>Wicket-Tutorials</finalName>
+    <plugins>
+      <!-- Spring Boot Maven Plugin for packaging and running -->
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
