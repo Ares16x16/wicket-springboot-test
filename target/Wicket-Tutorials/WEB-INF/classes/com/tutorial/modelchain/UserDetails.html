@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Details</title>
+</head>
+<body>
+    <div wicket:id="feedback"></div>
+
+    <h2>Users from Hibernate:</h2>
+    <ul>
+        <li wicket:id="userList">
+            <span wicket:id="userID">UserID</span> : <span wicket:id="userName">Name</span> - <span wicket:id="userEmail">Email</span>
+        </li>
+    </ul>
+    <button wicket:id="backHome">Back to Home</button>
+
+    <h2>Delete User</h2>
+    <form wicket:id="deleteForm">
+        <label for="userID">User ID:</label>
+        <input type="text" wicket:id="userID" id="userID" required/>
+        <input type="submit" value="Delete"/>
+    </form>
+
+    <h2>Update User Name</h2>
+    <form wicket:id="updateForm">
+        <label for="updateUserID">User ID:</label>
+        <input type="text" wicket:id="updateUserID" id="updateUserID" required/>
+        <label for="updateUserName">New Name:</label>
+        <input type="text" wicket:id="updateUserName" id="updateUserName" required/>
+        <input type="submit" value="Update"/>
+    </form>
+</body>
+</html>
