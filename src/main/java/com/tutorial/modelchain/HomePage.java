@@ -45,9 +45,9 @@ public class HomePage extends AuthenticatedWebPage {
     }
     
     @Override
-        public void renderHead(IHeaderResponse response) {
-            super.renderHead(response);
-            response.render(CssHeaderItem.forReference(
-                new PackageResourceReference(LoginPage.class, "homepage.css")));
-        }
+    public void renderHead(IHeaderResponse response) {
+        super.renderHead(response);
+        response.render(CssHeaderItem.forReference(
+            new PackageResourceReference(HomePage.class, "homepage.css")));
+    }
 }
