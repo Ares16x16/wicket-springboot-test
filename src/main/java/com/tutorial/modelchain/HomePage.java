@@ -48,6 +48,6 @@ public class HomePage extends AuthenticatedWebPage {
     public void renderHead(IHeaderResponse response) {
         super.renderHead(response);
         response.render(CssHeaderItem.forReference(
-            new PackageResourceReference(HomePage.class, "homepage.css")));
+            new PackageResourceReference(HomePage.class, "homepage-styles.css")));
     }
 }

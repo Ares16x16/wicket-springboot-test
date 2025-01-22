@@ -3,32 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <title>User Details</title>
+    <link rel="stylesheet" href="src/main/resources/com/tutorial/modelchain/userdetails-styles.css">
 </head>
-<body>
-    <div wicket:id="feedback"></div>
+<body class="body-style">
+    <div class="container">
+        <div class="header-section">
+            <h2>User Management</h2>
+            <button wicket:id="backHome" class="back-button">Back to Home</button>
+        </div>
+        <div wicket:id="feedback"></div>
+        <div class="user-list">
+            <h3>Users from Hibernate:</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr wicket:id="userList">
+                        <td><span wicket:id="userID">UserID</span></td>
+                        <td><span wicket:id="userName">Name</span></td>
+                        <td><span wicket:id="userEmail">Email</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-    <h2>Users from Hibernate:</h2>
-    <ul>
-        <li wicket:id="userList">
-            <span wicket:id="userID">UserID</span> : <span wicket:id="userName">Name</span> - <span wicket:id="userEmail">Email</span>
-        </li>
-    </ul>
-    <button wicket:id="backHome">Back to Home</button>
+        <div class="forms-section">
+            <div class="form-container">
+                <h3>Delete User</h3>
+                <form wicket:id="deleteForm">
+                    <div class="form-group">
+                        <label for="userID">User ID:</label>
+                        <input type="text" wicket:id="userID" id="userID" class="form-control" required/>
+                    </div>
+                    <input type="submit" value="Delete" class="submit-button" />
+                </form>
+            </div>
 
-    <h2>Delete User</h2>
-    <form wicket:id="deleteForm">
-        <label for="userID">User ID:</label>
-        <input type="text" wicket:id="userID" id="userID" required/>
-        <input type="submit" value="Delete"/>
-    </form>
-
-    <h2>Update User Name</h2>
-    <form wicket:id="updateForm">
-        <label for="updateUserID">User ID:</label>
-        <input type="text" wicket:id="updateUserID" id="updateUserID" required/>
-        <label for="updateUserName">New Name:</label>
-        <input type="text" wicket:id="updateUserName" id="updateUserName" required/>
-        <input type="submit" value="Update"/>
-    </form>
+            <div class="form-container">
+                <h3>Update User Name</h3>
+                <form wicket:id="updateForm">
+                    <div class="form-group">
+                        <label for="updateUserID">User ID:</label>
+                        <input type="text" wicket:id="updateUserID" id="updateUserID" class="form-control" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="updateUserName">New Name:</label>
+                        <input type="text" wicket:id="updateUserName" id="updateUserName" class="form-control" required/>
+                    </div>
+                    <input type="submit" value="Update" class="submit-button" />
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
