@@ -11,7 +11,7 @@ public class AdminPage extends AuthenticatedWebPage {
             setResponsePage(LoginPage.class);
         }
         
-        add(new Label("adminTitle", "Hi, Admin!"));
+        add(new Label("adminTitle", "Admin Page"));
         add(new Link<Void>("logout") {
             @Override
             public void onClick() {
