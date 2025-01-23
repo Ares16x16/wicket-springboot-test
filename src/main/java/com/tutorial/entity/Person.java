@@ -1,3 +1,4 @@
+//Actually this is useless and kinda duplicated
 package com.tutorial.entity;
 
 import java.io.Serializable;
