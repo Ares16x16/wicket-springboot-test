@@ -1,4 +1,4 @@
-package com.tutorial.modelchain;
+package com.tutorial.web.pages;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.form.*;
@@ -6,6 +6,8 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
+import com.tutorial.modelchain.AuthenticationService;
+import com.tutorial.modelchain.CustomSession;
 import com.tutorial.service.SchedulerService;
 
 import org.apache.wicket.markup.head.CssHeaderItem;
@@ -90,7 +92,6 @@ public class LoginPage extends WebPage {
     @Override
     public void renderHead(IHeaderResponse response) {
         super.renderHead(response);
-        response.render(CssHeaderItem.forReference(
-            new PackageResourceReference(LoginPage.class, "login-styles.css")));
+        response.render(CssHeaderItem.forUrl("css/login-styles.css"));
     }
 }

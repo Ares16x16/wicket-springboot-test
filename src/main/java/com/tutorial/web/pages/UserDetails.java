@@ -1,4 +1,4 @@
-package com.tutorial.modelchain;
+package com.tutorial.web.pages;
 
 import java.util.List;
 
@@ -15,6 +15,8 @@ import org.apache.wicket.request.resource.PackageResourceReference;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 
+import com.tutorial.modelchain.CustomSession;
+import com.tutorial.modelchain.User;
 import com.tutorial.service.UserService;
 
 public class UserDetails extends WebPage {
@@ -106,7 +108,6 @@ public class UserDetails extends WebPage {
     @Override
     public void renderHead(IHeaderResponse response) {
         super.renderHead(response);
-        response.render(CssHeaderItem.forReference(
-            new PackageResourceReference(UserDetails.class, "userdetails-styles.css")));
+        response.render(CssHeaderItem.forUrl("css/userdetails-styles.css"));
     }
 }

@@ -1,4 +1,4 @@
-package com.tutorial.linktopage;
+package com.tutorial.web.pages;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.link.Link;
@@ -11,7 +11,7 @@ public class AnotherPage extends WebPage{
 
 			@Override
 			public void onClick() {
-				setResponsePage(com.tutorial.modelchain.HomePage.class);
+				setResponsePage(com.tutorial.web.pages.HomePage.class);
 			}
 			
 		});

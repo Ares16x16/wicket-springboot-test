@@ -1,10 +1,13 @@
-package com.tutorial.modelchain;
+package com.tutorial.web.pages;
 
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.request.resource.PackageResourceReference;
+
+import com.tutorial.modelchain.AuthenticatedWebPage;
+import com.tutorial.modelchain.CustomSession;
 
 @AuthorizeInstantiation("USER")
 public class HomePage extends AuthenticatedWebPage {
@@ -31,7 +34,7 @@ public class HomePage extends AuthenticatedWebPage {
         add(new Link<Void>("toAnother") {
             @Override
             public void onClick() {
-                setResponsePage(com.tutorial.linktopage.AnotherPage.class);
+                setResponsePage(com.tutorial.web.pages.AnotherPage.class);
             }
         });
 
@@ -47,7 +50,6 @@ public class HomePage extends AuthenticatedWebPage {
     @Override
     public void renderHead(IHeaderResponse response) {
         super.renderHead(response);
-        response.render(CssHeaderItem.forReference(
-            new PackageResourceReference(HomePage.class, "homepage-styles.css")));
+        response.render(CssHeaderItem.forUrl("css/homepage-styles.css"));
     }
 }

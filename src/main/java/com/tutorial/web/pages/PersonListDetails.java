@@ -1,4 +1,4 @@
-package com.tutorial.modelchain;
+package com.tutorial.web.pages;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +16,8 @@ import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.request.resource.PackageResourceReference;
 
+import com.tutorial.modelchain.CustomSession;
+import com.tutorial.modelchain.Person;
 import com.tutorial.service.MessageService;
 import com.tutorial.service.UserService;
 
@@ -135,9 +137,7 @@ public class PersonListDetails extends WebPage {
     @Override
     public void renderHead(IHeaderResponse response) {
         super.renderHead(response);
-        // Correctly reference the CSS using PackageResourceReference
-        response.render(CssHeaderItem.forReference(
-            new PackageResourceReference(PersonListDetails.class, "personlistdetails-styles.css")));
+        response.render(CssHeaderItem.forUrl("css/personlistdetails-styles.css"));
     }
 
     private static List<Person> personsPojo() {

@@ -1,7 +1,10 @@
-package com.tutorial.modelchain;
+package com.tutorial.web.pages;
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
+
+import com.tutorial.modelchain.AuthenticatedWebPage;
+import com.tutorial.modelchain.CustomSession;
 
 public class AdminPage extends AuthenticatedWebPage {
     @Override
