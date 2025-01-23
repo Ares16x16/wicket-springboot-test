@@ -11,13 +11,12 @@ import org.apache.wicket.markup.html.list.*;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.request.resource.PackageResourceReference;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 
-import com.tutorial.modelchain.CustomSession;
-import com.tutorial.modelchain.User;
+import com.tutorial.entity.User;
 import com.tutorial.service.UserService;
+import com.tutorial.session.CustomSession;
 
 public class UserDetails extends WebPage {
     private static final long serialVersionUID = 1L;

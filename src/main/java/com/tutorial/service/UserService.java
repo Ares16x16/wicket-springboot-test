@@ -4,8 +4,9 @@ import java.util.List;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.tutorial.modelchain.User;
+
 import com.tutorial.dao.UserDAO;
+import com.tutorial.entity.User;
 
 @Service
 public class UserService {

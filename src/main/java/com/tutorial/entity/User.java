@@ -1,4 +1,4 @@
-package com.tutorial.modelchain;
+package com.tutorial.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;

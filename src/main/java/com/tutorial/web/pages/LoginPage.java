@@ -6,13 +6,12 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-import com.tutorial.modelchain.AuthenticationService;
-import com.tutorial.modelchain.CustomSession;
+import com.tutorial.security.AuthenticationService;
 import com.tutorial.service.SchedulerService;
+import com.tutorial.session.CustomSession;
 
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
-import org.apache.wicket.request.resource.PackageResourceReference;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.ajax.AbstractAjaxTimerBehavior;
 import org.apache.wicket.ajax.AjaxRequestTarget;

@@ -15,7 +15,7 @@
 
     <!-- Enable component scanning -->
     <context:component-scan base-package="com.tutorial" />
-    <context:component-scan base-package="com.tutorial.modelchain, com.tutorial.web.pages, com.tutorial.service, com.tutorial.repository, com.tutorial.entity, com.tutorial.config"/>
+    <context:component-scan base-package="com.tutorial.entity, com.tutorial.web.pages, com.tutorial.service, com.tutorial.repository, com.tutorial.entity, com.tutorial.config, com.tutorial.session, com.tutorial.security"/>
 
     <!-- DataSource -->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -27,7 +27,7 @@
 
     <!-- EntityManagerFactory -->
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="packagesToScan" value="com.tutorial.modelchain" />
+        <property name="packagesToScan" value="com.tutorial.entity" />
         <property name="dataSource" ref="dataSource" />
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">

@@ -1,7 +1,8 @@
 package com.tutorial.dao;
 
 import java.util.List;
-import com.tutorial.modelchain.User;
+
+import com.tutorial.entity.User;
 
 public interface UserDAO {
     User save(User user);

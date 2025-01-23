@@ -1,4 +1,4 @@
-package com.tutorial.modelchain;
+package com.tutorial.entity;
 
 import java.io.Serializable;
 import java.util.List;

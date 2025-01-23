@@ -6,8 +6,10 @@ import org.springframework.stereotype.Repository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
-import com.tutorial.modelchain.User;
+
 import org.springframework.transaction.annotation.Transactional;
+
+import com.tutorial.entity.User;
 
 @Repository
 @Transactional

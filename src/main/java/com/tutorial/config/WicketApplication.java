@@ -4,14 +4,15 @@ import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.tutorial.modelchain.AuthenticatedWebPage;
-import com.tutorial.modelchain.CustomRoleCheckingStrategy;
-import com.tutorial.modelchain.CustomSession;
+import com.tutorial.security.AuthenticatedWebPage;
+import com.tutorial.session.CustomRoleCheckingStrategy;
+import com.tutorial.session.CustomSession;
 import com.tutorial.web.pages.AdminPage;
 import com.tutorial.web.pages.HomePage;
 import com.tutorial.web.pages.LoginPage;
 import com.tutorial.web.pages.PersonListDetails;
 import com.tutorial.web.pages.UserDetails;
+import com.tutorial.web.pages.AnotherPage;
 
 import org.apache.wicket.authorization.strategies.CompoundAuthorizationStrategy;
 import org.apache.wicket.authorization.strategies.page.SimplePageAuthorizationStrategy;
@@ -65,7 +66,7 @@ public class WicketApplication extends WebApplication {
         mountPage("/home", HomePage.class);
         mountPage("/persons", PersonListDetails.class);
         mountPage("/users", UserDetails.class);
-        mountPage("/another", com.tutorial.web.pages.AnotherPage.class);
+        mountPage("/another", AnotherPage.class);
 
         mountPage("/admin", AdminPage.class);
     }

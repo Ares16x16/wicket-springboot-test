@@ -3,8 +3,8 @@ package com.tutorial.web.pages;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 
-import com.tutorial.modelchain.AuthenticatedWebPage;
-import com.tutorial.modelchain.CustomSession;
+import com.tutorial.security.AuthenticatedWebPage;
+import com.tutorial.session.CustomSession;
 
 public class AdminPage extends AuthenticatedWebPage {
     @Override

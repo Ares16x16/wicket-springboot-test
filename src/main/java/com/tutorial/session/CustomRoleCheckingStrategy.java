@@ -1,4 +1,4 @@
-package com.tutorial.modelchain;
+package com.tutorial.session;
 
 import org.apache.wicket.authroles.authorization.strategies.role.IRoleCheckingStrategy;
 

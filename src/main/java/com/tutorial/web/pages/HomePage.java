@@ -4,10 +4,9 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
-import org.apache.wicket.request.resource.PackageResourceReference;
 
-import com.tutorial.modelchain.AuthenticatedWebPage;
-import com.tutorial.modelchain.CustomSession;
+import com.tutorial.security.AuthenticatedWebPage;
+import com.tutorial.session.CustomSession;
 
 @AuthorizeInstantiation("USER")
 public class HomePage extends AuthenticatedWebPage {

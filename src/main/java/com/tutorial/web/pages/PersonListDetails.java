@@ -14,12 +14,11 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
-import org.apache.wicket.request.resource.PackageResourceReference;
 
-import com.tutorial.modelchain.CustomSession;
-import com.tutorial.modelchain.Person;
+import com.tutorial.entity.Person;
 import com.tutorial.service.MessageService;
 import com.tutorial.service.UserService;
+import com.tutorial.session.CustomSession;
 
 import io.micrometer.common.util.StringUtils;
 
