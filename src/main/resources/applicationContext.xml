@@ -15,7 +15,7 @@
 
     <!-- Enable component scanning -->
     <context:component-scan base-package="com.tutorial" />
-    <context:component-scan base-package="com.tutorial.entity, com.tutorial.web.pages, com.tutorial.service, com.tutorial.repository, com.tutorial.entity, com.tutorial.config, com.tutorial.session, com.tutorial.security"/>
+    <context:component-scan base-package="com.tutorial.entity, com.tutorial.web.pages, com.tutorial.service, com.tutorial.repository, com.tutorial.config, com.tutorial.session, com.tutorial.security"/>
 
     <!-- DataSource -->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -23,6 +23,11 @@
         <property name="url" value="jdbc:mysql://localhost:3306/user_wicket_spring"/>
         <property name="username" value="test" />
         <property name="password" value="test" />
+    </bean>
+
+    <!-- JdbcTemplate -->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
     </bean>
 
     <!-- EntityManagerFactory -->
@@ -48,8 +53,12 @@
     <!-- Enable JPA Repositories -->
     <jpa:repositories base-package="com.tutorial.modelchain" />
 
-    <!-- Existing beans -->
+    <!-- Message Service -->
     <bean id="messageService" class="com.tutorial.service.MessageService">
         <property name="message" value="Spring is working!" />
     </bean>
+
+    <!-- Password Encoder -->
+    <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+    
 </beans>

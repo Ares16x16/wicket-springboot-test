@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns:wicket="http://wicket.apache.org">
 <head>
@@ -10,5 +9,16 @@
         <p>admin page</p>
     </div>
     <button wicket:id="logout">Logout</button>
+
+    <h2>Create New User</h2>
+    <form wicket:id="createAccountForm">
+        <label for="newUsername">Username:</label>
+        <input type="text" wicket:id="newUsername" id="newUsername"/><br/>
+
+        <label for="newPassword">Password:</label>
+        <input type="password" wicket:id="newPassword" id="newPassword"/><br/>
+
+        <input type="submit" value="Create Account"/>
+    </form>
 </body>
 </html>

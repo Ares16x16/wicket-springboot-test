@@ -6,7 +6,7 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-import com.tutorial.security.AuthenticationService;
+import com.tutorial.service.AuthenticationService;
 import com.tutorial.service.SchedulerService;
 import com.tutorial.session.CustomSession;
 
@@ -19,6 +19,8 @@ import java.time.Duration;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class LoginPage extends WebPage {
     private final TextField<String> username;
