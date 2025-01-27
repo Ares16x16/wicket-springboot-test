@@ -2,6 +2,7 @@ package com.tutorial.web.pages;
 
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.head.JavaScriptHeaderItem;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
@@ -21,6 +22,7 @@ public class AdminPage extends AuthenticatedWebPage {
 
     private TextField<String> newUsername;
     private PasswordTextField newPassword;
+    private boolean duplicateUsername = false;
 
     @Override
     protected void onInitialize() {
@@ -57,10 +59,11 @@ public class AdminPage extends AuthenticatedWebPage {
                     newUsername.setModelObject("");
                     newPassword.setModelObject("");
                 } catch (DataIntegrityViolationException e) {
-                    error("Username already exists. Please choose another.");
+                    duplicateUsername = true;
                 } catch (Exception e) {
                     error("An error occurred while creating the account.");
                 }
+            
             }
         };
         add(createAccountForm);
@@ -76,5 +79,9 @@ public class AdminPage extends AuthenticatedWebPage {
     public void renderHead(IHeaderResponse response) {
         super.renderHead(response);
         response.render(CssHeaderItem.forUrl("css/admin-styles.css"));
+        if (duplicateUsername) {
+            response.render(JavaScriptHeaderItem.forScript("alert('Username already exists.');", "duplicate-username-alert"));
+            duplicateUsername = false;
+        }
     }
 }
