@@ -2,18 +2,18 @@
 <html xmlns:wicket="http://wicket.apache.org">
 <head>
     <meta charset="UTF-8">
-    <title>User Details</title>
+    <title>Added Persons Details</title>
     <link rel="stylesheet" href="src/main/resources/webapp/css/userdetails-styles.css">
 </head>
 <body class="body-style">
     <div class="container">
         <div class="header-section">
-            <h2>User Management</h2>
+            <h2>Database Management</h2>
             <button wicket:id="backHome" class="back-button">Back to Home</button>
         </div>
         <div wicket:id="feedback"></div>
         <div class="user-list">
-            <h3>Users from Hibernate:</h3>
+            <h3>Added Persons (Hibernate):</h3>
             <table>
                 <thead>
                     <tr>
@@ -24,7 +24,7 @@
                 </thead>
                 <tbody>
                     <tr wicket:id="userList">
-                        <td><span wicket:id="userID">UserID</span></td>
+                        <td><span wicket:id="userID">PersonID</span></td>
                         <td><span wicket:id="userName">Name</span></td>
                         <td><span wicket:id="userEmail">Email</span></td>
                     </tr>
@@ -34,10 +34,10 @@
 
         <div class="forms-section">
             <div class="form-container">
-                <h3>Delete User</h3>
+                <h3>Delete Person</h3>
                 <form wicket:id="deleteForm">
                     <div class="form-group">
-                        <label for="userID">User ID:</label>
+                        <label for="userID">Person ID:</label>
                         <input type="text" wicket:id="userID" id="userID" class="form-control" required/>
                     </div>
                     <input type="submit" value="Delete" class="submit-button" />
@@ -45,10 +45,10 @@
             </div>
 
             <div class="form-container">
-                <h3>Update User Name</h3>
+                <h3>Update Person Name</h3>
                 <form wicket:id="updateForm">
                     <div class="form-group">
-                        <label for="updateUserID">User ID:</label>
+                        <label for="updateUserID">Person ID:</label>
                         <input type="text" wicket:id="updateUserID" id="updateUserID" class="form-control" required/>
                     </div>
                     <div class="form-group">
