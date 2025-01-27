@@ -38,6 +38,12 @@ public class AdminPage extends AuthenticatedWebPage {
             }
         });
 
+        add(new Link<Void>("viewUsers") {
+            @Override
+            public void onClick() {
+                setResponsePage(UserAccountsPage.class);
+            }
+        });
 
         Form<Void> createAccountForm = new Form<Void>("createAccountForm") {
             @Override
@@ -65,6 +71,7 @@ public class AdminPage extends AuthenticatedWebPage {
         newPassword = new PasswordTextField("newPassword", Model.of(""));
         createAccountForm.add(newPassword);
     }
+
     @Override
     public void renderHead(IHeaderResponse response) {
         super.renderHead(response);

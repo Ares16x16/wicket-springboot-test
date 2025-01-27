@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+<head>
+    <title>User Accounts</title>
+    <link rel="stylesheet" href="src/main/resources/webapp/css/admin-styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1 wicket:id="userAccountsTitle">User Accounts</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr wicket:id="userRow">
+                    <td wicket:id="username"></td>
+                    <td>
+                        <button wicket:id="deleteUser" class="button-delete">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <button wicket:id="backToAdmin" class="button-back">Back to Admin</button>
+    </div>
+</body>
+</html>

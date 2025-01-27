@@ -2,23 +2,28 @@
 <html xmlns:wicket="http://wicket.apache.org">
 <head>
     <title>Admin Page</title>
+    <link rel="stylesheet" href="src/main/resources/webapp/css/admin-styles.css">
 </head>
 <body>
-    <h1 wicket:id="adminTitle">Admin Dashboard</h1>
-    <div>
-        <p>admin page</p>
+    <div class="container">
+        <h1 wicket:id="adminTitle">Admin Dashboard</h1>
+        <div>
+            <p>admin page</p>
+        </div>
+        <button wicket:id="logout" class="button-back">Logout</button>
+        
+        <button wicket:id="viewUsers" class="button-view-users">View User Accounts</button>
+    
+        <h2>Create New User</h2>
+        <form wicket:id="createAccountForm">
+            <label for="newUsername">Username:</label>
+            <input type="text" wicket:id="newUsername" id="newUsername"/><br/>
+    
+            <label for="newPassword">Password:</label>
+            <input type="password" wicket:id="newPassword" id="newPassword"/><br/>
+    
+            <input type="submit" value="Create Account" class="button-view-users"/>
+        </form>
     </div>
-    <button wicket:id="logout">Logout</button>
-
-    <h2>Create New User</h2>
-    <form wicket:id="createAccountForm">
-        <label for="newUsername">Username:</label>
-        <input type="text" wicket:id="newUsername" id="newUsername"/><br/>
-
-        <label for="newPassword">Password:</label>
-        <input type="password" wicket:id="newPassword" id="newPassword"/><br/>
-
-        <input type="submit" value="Create Account"/>
-    </form>
 </body>
 </html>

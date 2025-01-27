@@ -5,6 +5,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import java.util.List;
+
+import com.tutorial.model.LoginUser;
 
 @Service
 public class AuthenticationService {
@@ -39,5 +42,15 @@ public class AuthenticationService {
         String encodedPassword = passwordEncoder.encode(password);
         String sql = "INSERT INTO login_users (username, password) VALUES (?, ?)";
         jdbcTemplate.update(sql, username, encodedPassword);
+    }
+
+    public List<LoginUser> getAllUsers() {
+        String sql = "SELECT username FROM login_users";
+        return jdbcTemplate.query(sql, (rs, rowNum) -> new LoginUser(rs.getString("username")));
+    }
+
+    public void deleteUser(String username) {
+        String sql = "DELETE FROM login_users WHERE username = ?";
+        jdbcTemplate.update(sql, username);
     }
 }
