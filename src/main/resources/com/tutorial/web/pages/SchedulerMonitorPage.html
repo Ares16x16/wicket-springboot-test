@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Scheduler Monitor</title>
+    <wicket:head>
+      <!-- Header contributions will be rendered here -->
+    </wicket:head>
+    <link rel="stylesheet" href="src/main/resources/webapp/css/scheduler-monitor-styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Scheduler Monitor</h1>
+        <button wicket:id="backToAdmin" class="button-back">Back to Admin</button>
+        
+        <h2>Status</h2>
+        <p wicket:id="statusLabel">Job is not scheduled.</p>
+        
+        <!-- New section to show last execution time -->
+        <h2>Last Execution Time</h2>
+        <p wicket:id="timeLabel">Never</p>
+        
+        <form wicket:id="monitorForm">
+            <button wicket:id="startLogging" class="button-start-logging">Start Logging Job</button>
+            <button wicket:id="stopLogging" class="button-stop-logging">Stop Logging Job</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -46,7 +46,15 @@ public class AdminPage extends AuthenticatedWebPage {
                 setResponsePage(UserAccountsPage.class);
             }
         });
-
+        
+        // New link to access Scheduler Monitor page
+        add(new Link<Void>("scheduleMonitor") {
+            @Override
+            public void onClick() {
+                setResponsePage(SchedulerMonitorPage.class);
+            }
+        });
+        
         Form<Void> createAccountForm = new Form<Void>("createAccountForm") {
             @Override
             protected void onSubmit() {
