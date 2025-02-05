@@ -21,6 +21,12 @@
     
             <label for="newPassword">Password:</label>
             <input type="password" wicket:id="newPassword" id="newPassword"/><br/>
+            
+            <div class="captcha-container">
+                <label for="captchaInput">Enter Captcha:</label>
+                <img wicket:id="captchaImage" class="captcha-image"/>
+                <input type="text" wicket:id="captchaInput" id="captchaInput"/><br/>
+            </div>
     
             <input type="submit" value="Create Account" class="button-view-users"/>
         </form>

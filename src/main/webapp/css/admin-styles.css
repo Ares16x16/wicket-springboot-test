@@ -69,3 +69,14 @@ input[type="submit"] {
 input[type="submit"]:hover {
     background-color: #218838;
 }
+
+.captcha-container {
+    margin-bottom: 15px;
+}
+
+.captcha-image {
+    display: block;
+    margin: 10px 0;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+}
