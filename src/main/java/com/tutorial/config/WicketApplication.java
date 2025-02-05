@@ -12,7 +12,7 @@ import com.tutorial.web.pages.HomePage;
 import com.tutorial.web.pages.LoginPage;
 import com.tutorial.web.pages.PersonListDetails;
 import com.tutorial.web.pages.UserDetails;
-import com.tutorial.web.pages.AnotherPage;
+import com.tutorial.web.pages.BitcoinPage;
 
 import org.apache.wicket.authorization.strategies.CompoundAuthorizationStrategy;
 import org.apache.wicket.authorization.strategies.page.SimplePageAuthorizationStrategy;
@@ -66,7 +66,7 @@ public class WicketApplication extends WebApplication {
         mountPage("/home", HomePage.class);
         mountPage("/persons", PersonListDetails.class);
         mountPage("/users", UserDetails.class);
-        mountPage("/another", AnotherPage.class);
+        mountPage("/another", BitcoinPage.class);
 
         mountPage("/admin", AdminPage.class);
     }

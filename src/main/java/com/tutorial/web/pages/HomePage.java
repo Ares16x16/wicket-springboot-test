@@ -30,10 +30,10 @@ public class HomePage extends AuthenticatedWebPage {
                 setResponsePage(UserDetails.class);
             }
         });
-        add(new Link<Void>("toAnother") {
+        add(new Link<Void>("toBitcoin") {
             @Override
             public void onClick() {
-                setResponsePage(com.tutorial.web.pages.AnotherPage.class);
+                setResponsePage(com.tutorial.web.pages.BitcoinPage.class);
             }
         });
 
