@@ -91,6 +91,17 @@
       <version>3.0.1</version>
     </dependency>
   
+    <!-- Caching dependencies -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-cache</artifactId>
+    </dependency>
+
+    <!-- Actuator for cache metrics -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
 
     <!-- JUnit (Spring Boot adds JUnit automatically, but you can keep a direct reference) -->
     <dependency>
