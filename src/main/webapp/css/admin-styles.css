@@ -18,7 +18,7 @@ h1, h2 {
     color: #333333;
 }
 
-.button-back, .button-view-users, .button-schedule {
+.button-back, .button-view-users, .button-schedule, .button-pdf {
     display: inline-block;
     padding: 10px 20px;
     margin: 10px 5px 0 0;
@@ -32,7 +32,7 @@ h1, h2 {
     transition: background-color 0.3s ease;
 }
 
-.button-back:hover, .button-view-users:hover, .button-schedule:hover {
+.button-back:hover, .button-view-users:hover, .button-schedule:hover , .button-pdf:hover{
     background-color: #0056b3;
 }
 
