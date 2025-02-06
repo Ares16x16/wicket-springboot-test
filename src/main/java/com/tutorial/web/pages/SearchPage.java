@@ -30,11 +30,11 @@ public class SearchPage extends WebPage {
     @SpringBean
     private LuceneService luceneService;
     
-    // Using LuceneService.SearchResult instead of User
     private List<LuceneService.SearchResult> searchResults = new ArrayList<>();
     private WebMarkupContainer resultsTable;
-    // Added member for the DataView to reset current page
     private DataView<LuceneService.SearchResult> resultsDataView;
+    // Add navigator as member variable
+    private AjaxPagingNavigator navigator;
 
     public SearchPage() {
         if (!CustomSession.get().isSignedIn()) {
@@ -88,6 +88,7 @@ public class SearchPage extends WebPage {
             protected void onSubmit(AjaxRequestTarget target) {
                 target.add(resultsTable);
                 target.add(feedbackPanel);
+                target.add(navigator);  // Add navigator to target
             }
             @Override
             protected void onError(AjaxRequestTarget target) {
@@ -95,7 +96,7 @@ public class SearchPage extends WebPage {
             }
         });
 
-        // Show All Content button with fixed feedback
+        // Show All Content button
         searchForm.add(new AjaxButton("showAllButton", searchForm) {
             {
                 setDefaultFormProcessing(false);  // Set in initialization block instead
@@ -108,10 +109,11 @@ public class SearchPage extends WebPage {
                     searchResults.clear();
                     searchResults.addAll(luceneService.getAllContent());
                     resultsDataView.setCurrentPage(0);
-                    info("Showing all content");  // Single feedback message
+                    info("Showing all content");
                     target.add(searchField);
                     target.add(resultsTable);
                     target.add(feedbackPanel);
+                    target.add(navigator);
                 } catch (Exception e) {
                     error("Failed to load content: " + e.getMessage());
                     target.add(feedbackPanel);
@@ -140,7 +142,9 @@ public class SearchPage extends WebPage {
         add(resultsTable);
 
         // Pagination
-        add(new AjaxPagingNavigator("navigator", resultsDataView));
+        navigator = new AjaxPagingNavigator("navigator", resultsDataView);
+        navigator.setOutputMarkupId(true);  // Enable Ajax updates
+        add(navigator);
 
         // Back to home button
         add(new Link<Void>("backToHome") {
