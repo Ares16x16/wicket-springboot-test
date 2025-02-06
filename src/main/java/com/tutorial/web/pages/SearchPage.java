@@ -14,6 +14,8 @@ import org.apache.wicket.markup.repeater.data.IDataProvider;
 import org.apache.wicket.ajax.markup.html.navigation.paging.AjaxPagingNavigator;  // added import
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.apache.wicket.markup.head.CssHeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
@@ -152,5 +154,11 @@ public class SearchPage extends WebPage {
                 setResponsePage(HomePage.class);
             }
         });
+    }
+
+    @Override
+    public void renderHead(IHeaderResponse response) {
+        super.renderHead(response);
+        response.render(CssHeaderItem.forUrl("css/search-styles.css"));
     }
 }
