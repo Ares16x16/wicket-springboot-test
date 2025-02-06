@@ -57,8 +57,7 @@ public class SearchPage extends WebPage {
                 try {
                     String term = searchField.getModelObject();
                     if (term == null || term.trim().isEmpty()) {
-                        // If search term is empty, show all content
-                        searchResults.clear();
+                        searchResults.clear(); // Clear previous results
                         searchResults.addAll(luceneService.getAllContent());
                     } else {
                         String algo = searchTypeChoice.getModelObject();
@@ -88,7 +87,7 @@ public class SearchPage extends WebPage {
             protected void onSubmit(AjaxRequestTarget target) {
                 target.add(resultsTable);
                 target.add(feedbackPanel);
-                target.add(navigator);  // Add navigator to target
+                target.add(navigator);
             }
             @Override
             protected void onError(AjaxRequestTarget target) {
@@ -99,7 +98,7 @@ public class SearchPage extends WebPage {
         // Show All Content button
         searchForm.add(new AjaxButton("showAllButton", searchForm) {
             {
-                setDefaultFormProcessing(false);  // Set in initialization block instead
+                setDefaultFormProcessing(false);  // Set in initialization block
             }
             
             @Override

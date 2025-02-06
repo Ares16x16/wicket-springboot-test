@@ -26,9 +26,13 @@ public class LuceneService {
     private Directory directory;
 
     @PostConstruct
-    public void init() throws Exception {
-        directory = FSDirectory.open(Paths.get(INDEX_DIR));
-        indexContent();
+    public void init() {
+        try {
+            directory = FSDirectory.open(Paths.get(INDEX_DIR));
+            indexContent();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to initialize Lucene index", e);
+        }
     }
 
     // Renamed and modified to index dummy content instead of users
@@ -94,11 +98,11 @@ public class LuceneService {
     // Method to fetch all content
     public List<SearchResult> getAllContent() throws Exception {
         IndexReader reader = DirectoryReader.open(directory);
-        IndexSearcher searcher = new IndexSearcher(reader);
+        //IndexSearcher searcher = new IndexSearcher(reader);
         List<SearchResult> results = new ArrayList<>();
 
         for (int i = 0; i < reader.maxDoc(); i++) {
-            Document doc = reader.document(i);
+            Document doc = reader.storedFields().document(i);
             String id = doc.get("id");
             String title = doc.get("title");
             String snippet = doc.get("snippet");
