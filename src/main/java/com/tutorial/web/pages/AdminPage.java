@@ -7,13 +7,10 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.image.NonCachingImage;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.request.resource.DynamicImageResource;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
@@ -21,9 +18,6 @@ import com.tutorial.security.AuthenticatedWebPage;
 import com.tutorial.session.CustomSession;
 import com.tutorial.service.AuthenticationService;
 import com.tutorial.web.resources.CaptchaImageResource;
-
-import javax.imageio.ImageIO;
-import java.io.ByteArrayOutputStream;
 
 public class AdminPage extends AuthenticatedWebPage {
     @SpringBean

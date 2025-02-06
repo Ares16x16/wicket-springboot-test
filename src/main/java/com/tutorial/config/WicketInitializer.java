@@ -7,12 +7,19 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class WicketInitializer {
+    
     @Bean
-    public FilterRegistrationBean<WicketFilter> wicketServletRegistration() {
-        FilterRegistrationBean<WicketFilter> registration = new FilterRegistrationBean<>(new WicketFilter());
+    public FilterRegistrationBean<WicketFilter> wicketFilter() {
+        FilterRegistrationBean<WicketFilter> registration = new FilterRegistrationBean<>();
+        WicketFilter filter = new WicketFilter();
+        
+        registration.setFilter(filter);
         registration.addUrlPatterns("/*");
-        registration.addInitParameter(WicketFilter.APP_FACT_PARAM, "com.tutorial.config.WicketApplication");
-        registration.setName("WicketFilter");
+        registration.setOrder(1);
+        registration.addInitParameter("applicationClassName", WicketApplication.class.getName());
+        registration.addInitParameter(WicketFilter.FILTER_MAPPING_PARAM, "/*");
+        registration.setName("wicket-filter");
+        
         return registration;
     }
 }

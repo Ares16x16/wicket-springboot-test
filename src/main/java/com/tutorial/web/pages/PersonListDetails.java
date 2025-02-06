@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.*;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.Model;
@@ -16,15 +15,12 @@ import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 
 import com.tutorial.entity.Person;
-import com.tutorial.service.MessageService;
 import com.tutorial.service.UserService;
 import com.tutorial.session.CustomSession;
 
 import io.micrometer.common.util.StringUtils;
 
 public class PersonListDetails extends WebPage {
-    @SpringBean
-    private MessageService messageService;
 
     @SpringBean
     private UserService userService;
@@ -130,7 +126,7 @@ public class PersonListDetails extends WebPage {
         add(form);
 
         // Display message from MessageService
-        add(new Label("springMessage", messageService.getMessage()));
+        //add(new Label("springMessage", messageService.getMessage()));
     }
 
     @Override

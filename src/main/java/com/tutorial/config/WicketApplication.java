@@ -3,6 +3,8 @@ package com.tutorial.config;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.tutorial.security.AuthenticatedWebPage;
 import com.tutorial.session.CustomRoleCheckingStrategy;
@@ -36,8 +38,10 @@ public class WicketApplication extends WebApplication {
     @Override
     public void init() {
         super.init();
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-        getComponentInstantiationListeners().add(new SpringComponentInjector(this, context));
+        
+        // Get Spring's ApplicationContext
+        ApplicationContext applicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
+        getComponentInstantiationListeners().add(new SpringComponentInjector(this, applicationContext));
 
         // Configure security
         CompoundAuthorizationStrategy authorizationStrategy = new CompoundAuthorizationStrategy();
