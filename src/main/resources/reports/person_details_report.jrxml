@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="user_details_report" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+    <style name="Table_Header" mode="Opaque" backcolor="#F0F0F0">
+        <box><pen lineWidth="0.5" lineColor="#000000"/></box>
+    </style>
+    <field name="id" class="java.lang.Long"/>
+    <field name="name" class="java.lang.String"/>
+    <field name="email" class="java.lang.String"/>
+    <title>
+        <band height="80">
+            <staticText>
+                <reportElement x="0" y="0" width="555" height="50"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="24" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Person Details Report]]></text>
+            </staticText>
+            <textField pattern="MMMMM dd, yyyy">
+                <reportElement x="0" y="50" width="555" height="30"/>
+                <textElement textAlignment="Center"/>
+                <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+    <detail>
+        <band height="120">
+            <staticText>
+                <reportElement style="Table_Header" x="50" y="0" width="150" height="30"/>
+                <textElement verticalAlignment="Middle">
+                    <paragraph leftIndent="10"/>
+                </textElement>
+                <text><![CDATA[Person ID:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="200" y="0" width="305" height="30"/>
+                <box><pen lineWidth="0.5"/></box>
+                <textElement verticalAlignment="Middle">
+                    <paragraph leftIndent="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement style="Table_Header" x="50" y="30" width="150" height="30"/>
+                <textElement verticalAlignment="Middle">
+                    <paragraph leftIndent="10"/>
+                </textElement>
+                <text><![CDATA[Name:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="200" y="30" width="305" height="30"/>
+                <box><pen lineWidth="0.5"/></box>
+                <textElement verticalAlignment="Middle">
+                    <paragraph leftIndent="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement style="Table_Header" x="50" y="60" width="150" height="30"/>
+                <textElement verticalAlignment="Middle">
+                    <paragraph leftIndent="10"/>
+                </textElement>
+                <text><![CDATA[Email:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="200" y="60" width="305" height="30"/>
+                <box><pen lineWidth="0.5"/></box>
+                <textElement verticalAlignment="Middle">
+                    <paragraph leftIndent="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+</jasperReport>

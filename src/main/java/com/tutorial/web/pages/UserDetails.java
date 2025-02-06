@@ -18,6 +18,15 @@ import com.tutorial.entity.User;
 import com.tutorial.service.UserService;
 import com.tutorial.session.CustomSession;
 
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.apache.wicket.util.resource.AbstractResourceStreamWriter;
+import org.apache.wicket.util.resource.IResourceStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
+
 public class UserDetails extends WebPage {
     private static final long serialVersionUID = 1L;
 
@@ -101,6 +110,58 @@ public class UserDetails extends WebPage {
         updateForm.add(updateIdField.setRequired(true));
         updateForm.add(updateNameField.setRequired(true));
         add(updateForm);
+
+        add(new Link<Void>("generatePdf") {
+            @Override
+            public void onClick() {
+                try {
+                    List<User> users = userService.getAllUsers();
+
+                    String reportPath = "reports/person_details_report.jrxml";
+                    InputStream reportStream = Thread.currentThread()
+                            .getContextClassLoader()
+                            .getResourceAsStream(reportPath);
+
+                    if (reportStream == null) {
+                        throw new RuntimeException("Could not find report template: " + reportPath);
+                    }
+
+                    JasperReport jasperReport = JasperCompileManager.compileReport(reportStream);
+                    JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(users);
+
+                    Map<String, Object> parameters = new HashMap<>();
+                    JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    JasperExportManager.exportReportToPdfStream(jasperPrint, baos);
+                    byte[] pdfBytes = baos.toByteArray();
+
+                    IResourceStream resourceStream = new AbstractResourceStreamWriter() {
+                        @Override
+                        public void write(java.io.OutputStream output) {
+                            try {
+                                output.write(pdfBytes);
+                            } catch (java.io.IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+
+                        @Override
+                        public String getContentType() {
+                            return "application/pdf";
+                        }
+                    };
+
+                    getRequestCycle().scheduleRequestHandlerAfterCurrent(
+                            new org.apache.wicket.request.handler.resource.ResourceStreamRequestHandler(
+                                    resourceStream, "user_details.pdf"));
+
+                } catch (Exception e) {
+                    error("Failed to generate PDF: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        });
         
     }
 
