@@ -92,7 +92,7 @@ public class PersonListDetails extends WebPage {
                         userService.createUser(p.getName(), p.getEmail());
                         info("User saved successfully!");
                         // Redirect to UserDetails page
-                        setResponsePage(UserDetails.class);
+                        //setResponsePage(UserDetails.class);
                     } else {
                         error("Name and email are required");
                     }

@@ -7,7 +7,7 @@ import jakarta.persistence.NoResultException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.CacheEvict;
@@ -23,13 +23,13 @@ public class AuthenticationService {
     private EntityManager entityManager;
 
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
-
+    private PasswordEncoder passwordEncoder; 
     public boolean authenticate(String username, String password) {
         return authenticateFromDB(username, password);
     }
 
     public boolean authenticateFromDB(String username, String password) {
+        // naive check for admin credentials
         if ("admin".equals(username) && "admin".equals(password)) {
             return true; // admin credentials
         }

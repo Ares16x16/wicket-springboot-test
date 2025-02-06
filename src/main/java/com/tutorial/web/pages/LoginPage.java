@@ -20,8 +20,6 @@ import java.time.Duration;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 public class LoginPage extends WebPage {
     private final TextField<String> username;
     private final PasswordTextField password;
