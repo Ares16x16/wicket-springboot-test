@@ -37,6 +37,13 @@ public class HomePage extends AuthenticatedWebPage {
             }
         });
 
+        add(new Link<Void>("toSearch") {
+            @Override
+            public void onClick() {
+                setResponsePage(com.tutorial.web.pages.SearchPage.class);
+            }
+        });
+
         add(new Link<Void>("logout") {
             @Override
             public void onClick() {

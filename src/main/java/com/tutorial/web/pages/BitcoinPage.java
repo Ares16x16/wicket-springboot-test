@@ -25,6 +25,7 @@ public class BitcoinPage extends WebPage {
     @SpringBean
     private bitcoinService bitcoinService;
 
+    @SuppressWarnings("unchecked")
     public BitcoinPage(final PageParameters parameters) {
         // Parse JSON data from bitcoinService into a list of currency maps
         List<Map<String, Object>> currencyList = new ArrayList<>();

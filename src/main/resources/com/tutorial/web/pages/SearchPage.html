@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+<head>
+    <title>Search Content</title>
+    <link rel="stylesheet" href="css/search-styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Search Content</h1>
+        <form wicket:id="searchForm">
+            <div class="search-box">
+                <input type="text" wicket:id="searchTerm" placeholder="Enter search terms..."/>
+                <select wicket:id="searchType">
+                    <option value="Standard">Standard</option>
+                    <option value="Fuzzy">Fuzzy</option>
+                </select>
+                <button type="submit" wicket:id="searchButton">Search</button>
+            </div>
+            <div class="navigation">
+                <button wicket:id="showAllButton" class="button-show-all">Show All Content</button>
+            </div>
+        </form>
+
+        <div wicket:id="feedback" class="feedback"></div>
+
+        <div class="results">
+            <table wicket:id="resultsTable" class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Snippet</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr wicket:id="results">
+                        <td wicket:id="id"></td>
+                        <td wicket:id="title"></td>
+                        <td wicket:id="snippet"></td>
+                        <td wicket:id="score"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Added navigator container for pagination -->
+        <div wicket:id="navigator">pagination</div>
+
+        <div class="navigation">
+            <button wicket:id="backToHome" class="button-back">Back to Home</button>
+        </div>
+    </div>
+</body>
+</html>
