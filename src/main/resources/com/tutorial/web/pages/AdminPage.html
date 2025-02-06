@@ -9,6 +9,7 @@
 </head>
 <body>
     <div class="container">
+        <div wicket:id="feedback" class="feedback-panel"></div>
         <h1 wicket:id="adminTitle">Admin Dashboard</h1>
         <button wicket:id="logout" class="button-back">Logout</button>
         <button wicket:id="viewUsers" class="button-view-users">View User Accounts</button>
@@ -24,7 +25,10 @@
             
             <div class="captcha-container">
                 <label for="captchaInput">Enter Captcha:</label>
-                <img wicket:id="captchaImage" class="captcha-image"/>
+                <div class="captcha-wrapper">
+                    <img wicket:id="captchaImage" class="captcha-image"/>
+                    <button type="button" wicket:id="refreshCaptcha" class="button-refresh">↻</button>
+                </div>
                 <input type="text" wicket:id="captchaInput" id="captchaInput"/><br/>
             </div>
     

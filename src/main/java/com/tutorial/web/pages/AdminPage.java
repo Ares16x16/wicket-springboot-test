@@ -1,5 +1,7 @@
 package com.tutorial.web.pages;
 
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.JavaScriptHeaderItem;
@@ -9,6 +11,7 @@ import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.image.NonCachingImage;
 import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -18,6 +21,10 @@ import com.tutorial.security.AuthenticatedWebPage;
 import com.tutorial.session.CustomSession;
 import com.tutorial.service.AuthenticationService;
 import com.tutorial.web.resources.CaptchaImageResource;
+
+import java.sql.SQLIntegrityConstraintViolationException;
+import org.apache.wicket.validation.validator.StringValidator;
+import org.apache.wicket.model.ResourceModel;
 
 public class AdminPage extends AuthenticatedWebPage {
     @SpringBean
@@ -29,8 +36,12 @@ public class AdminPage extends AuthenticatedWebPage {
     private TextField<String> newUsername;
     private PasswordTextField newPassword;
     private TextField<String> captchaInput;
-    private boolean duplicateUsername = false;
     private CaptchaImageResource captchaResource;
+    private NonCachingImage captchaImage;
+
+    public AdminPage() {
+        captchaResource = new CaptchaImageResource(captchaProducer);
+    }
 
     @Override
     protected void onInitialize() {
@@ -38,6 +49,11 @@ public class AdminPage extends AuthenticatedWebPage {
         if (!CustomSession.get().hasRole("ADMIN")) {
             setResponsePage(LoginPage.class);
         }
+        
+        // FeedbackPanel
+        FeedbackPanel feedbackPanel = new FeedbackPanel("feedback");
+        feedbackPanel.setOutputMarkupId(true);
+        add(feedbackPanel);
         
         add(new Label("adminTitle", "Admin Page"));
         add(new Link<Void>("logout") {
@@ -67,25 +83,40 @@ public class AdminPage extends AuthenticatedWebPage {
             @Override
             protected void onSubmit() {
                 String inputCaptcha = captchaInput.getModelObject();
-                if (captchaResource != null && 
-                    captchaResource.getGeneratedText() != null && 
-                    captchaResource.getGeneratedText().equals(inputCaptcha)) {
-                    String user = newUsername.getModelObject();
-                    String pass = newPassword.getModelObject();
-                    try {
-                        authenticationService.createAccountInDB(user, pass);
-                        info("Account created successfully!");
-                        newUsername.setModelObject("");
-                        newPassword.setModelObject("");
-                        captchaInput.setModelObject("");
+                String generatedCaptcha = captchaResource.getGeneratedText();
+                
+                // Normalize captcha inputs
+                if (inputCaptcha != null && generatedCaptcha != null) {
+                    inputCaptcha = inputCaptcha.trim().toLowerCase();
+                    generatedCaptcha = generatedCaptcha.trim().toLowerCase();
+                    
+                    if (generatedCaptcha.equals(inputCaptcha)) {
+                        String user = newUsername.getModelObject();
+                        String pass = newPassword.getModelObject();
+                        try {
+                            authenticationService.createAccountInDB(user, pass);
+                            info("Account created successfully!");
+                            newUsername.setModelObject("");
+                            newPassword.setModelObject("");
+                            captchaInput.setModelObject("");
+                            generateNewCaptcha();
+                        } catch (Exception e) {
+                            // Check if the root cause is a duplicate entry
+                            Throwable rootCause = getRootCause(e);
+                            if (rootCause instanceof SQLIntegrityConstraintViolationException && 
+                                rootCause.getMessage().contains("Duplicate entry")) {
+                                error("Username already exists. Please choose a different username.");
+                            } else {
+                                error("An error occurred while creating the account.");
+                            }
+                            generateNewCaptcha();
+                        }
+                    } else {
+                        error("Invalid captcha. Please try again.");
                         generateNewCaptcha();
-                    } catch (DataIntegrityViolationException e) {
-                        duplicateUsername = true;
-                    } catch (Exception e) {
-                        error("An error occurred while creating the account.");
                     }
                 } else {
-                    error("Invalid captcha. Please try again.");
+                    error("Please enter the captcha code.");
                     generateNewCaptcha();
                 }
             }
@@ -96,28 +127,48 @@ public class AdminPage extends AuthenticatedWebPage {
         createAccountForm.add(newUsername);
 
         newPassword = new PasswordTextField("newPassword", Model.of(""));
+        newPassword.setLabel(Model.of("Password"));  // replace variable name in error msg
+        newPassword.setRequired(true);
         createAccountForm.add(newPassword);
 
         captchaInput = new TextField<>("captchaInput", Model.of(""));
         createAccountForm.add(captchaInput);
 
-        captchaResource = new CaptchaImageResource(captchaProducer);
-        NonCachingImage captchaImage = new NonCachingImage("captchaImage", captchaResource);
+        captchaImage = new NonCachingImage("captchaImage", captchaResource);
         captchaImage.setOutputMarkupId(true);
         createAccountForm.add(captchaImage);
+
+        // Ajax refresh button
+        AjaxLink<Void> refreshButton = new AjaxLink<Void>("refreshCaptcha") {
+            @Override
+            public void onClick(AjaxRequestTarget target) {
+                generateNewCaptcha();
+                captchaImage.setImageResource(captchaResource);
+                target.add(captchaImage);
+            }
+        };
+        createAccountForm.add(refreshButton);
     }
 
     private void generateNewCaptcha() {
         captchaResource = new CaptchaImageResource(captchaProducer);
+        if (captchaImage != null) {
+            captchaImage.setImageResource(captchaResource);
+        }
+    }
+
+    // Add this helper method to get the root cause of exception
+    private Throwable getRootCause(Throwable throwable) {
+        Throwable cause = throwable;
+        while (cause.getCause() != null) {
+            cause = cause.getCause();
+        }
+        return cause;
     }
 
     @Override
     public void renderHead(IHeaderResponse response) {
         super.renderHead(response);
         response.render(CssHeaderItem.forUrl("css/admin-styles.css"));
-        if (duplicateUsername) {
-            response.render(JavaScriptHeaderItem.forScript("alert('Username already exists.');", "duplicate-username-alert"));
-            duplicateUsername = false;
-        }
     }
 }
