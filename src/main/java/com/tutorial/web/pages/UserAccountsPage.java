@@ -64,7 +64,6 @@ public class UserAccountsPage extends AuthenticatedWebPage {
                 try {
                     List<LoginUser> users = authenticationService.getAllUsers();
 
-                    // Updated report template loading without leading slash
                     String reportPath = "reports/users_report.jrxml";
                     InputStream reportStream = Thread.currentThread()
                         .getContextClassLoader()
