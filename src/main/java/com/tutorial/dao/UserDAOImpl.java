@@ -28,13 +28,13 @@ public class UserDAOImpl implements UserDAO {
     @Override
     @Cacheable("users")
     public List<User> findAll() {
-        TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u", User.class);
+        TypedQuery<User> query = entityManager.createNamedQuery("User.findAll", User.class);
         return query.getResultList();
     }
 
     @Override
     public List<User> findByName(String name) {
-        TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u WHERE u.name = :name", User.class);
+        TypedQuery<User> query = entityManager.createNamedQuery("User.findByName", User.class);
         query.setParameter("name", name);
         return query.getResultList();
     }
@@ -55,7 +55,9 @@ public class UserDAOImpl implements UserDAO {
     @Override
     @Cacheable(value = "user", key = "#id")
     public User findById(Long id) {
-        return entityManager.find(User.class, id);
+        TypedQuery<User> query = entityManager.createNamedQuery("User.findById", User.class);
+        query.setParameter("id", id);
+        return query.getSingleResult();
     }
 
     // Clear caches when updating a user.

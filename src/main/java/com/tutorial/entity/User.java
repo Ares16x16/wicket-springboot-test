@@ -5,10 +5,26 @@ import jakarta.persistence.Table;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "Users") // Renamed table
+@NamedQueries({
+    @NamedQuery(
+        name = "User.findAll",
+        query = "SELECT u FROM User u"
+    ),
+    @NamedQuery(
+        name = "User.findByName",
+        query = "SELECT u FROM User u WHERE u.name = :name"
+    ),
+    @NamedQuery(
+        name = "User.findById",
+        query = "SELECT u FROM User u WHERE u.id = :id"
+    )
+})
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 

@@ -27,7 +27,6 @@ public class BitcoinPage extends WebPage {
 
     @SuppressWarnings("unchecked")
     public BitcoinPage(final PageParameters parameters) {
-        // Parse JSON data from bitcoinService into a list of currency maps
         List<Map<String, Object>> currencyList = new ArrayList<>();
         try {
             ObjectMapper mapper = new ObjectMapper();
@@ -37,19 +36,16 @@ public class BitcoinPage extends WebPage {
                 Map<String, Object> currency = (Map<String, Object>) entry.getValue();
                 currencyList.add(currency);
             }
-            // Optionally add header labels if needed using root.get("chartName") or root.get("time")
         } catch(Exception e) {
-            // Log error and leave currencyList empty or add a message
+            // Log error
         }
 
-        // Wrap table in a container for auto-update
         WebMarkupContainer tableContainer = new WebMarkupContainer("tableContainer");
         tableContainer.setOutputMarkupId(true);
-        // Auto-update every 5 seconds (5000ms)
+        // Auto-update every 5s
         tableContainer.add(new AjaxSelfUpdatingTimerBehavior(Duration.ofSeconds(5)));
         add(tableContainer);
 
-        // ListView inside the table container (child of tableContainer)
         tableContainer.add(new ListView<Map<String, Object>>("currencyList", currencyList) {
             @Override
             protected void populateItem(ListItem<Map<String, Object>> item) {
