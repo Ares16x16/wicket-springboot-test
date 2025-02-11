@@ -32,9 +32,10 @@ import org.slf4j.LoggerFactory;
 @Service
 @Transactional
 public class AuthenticationService {
-
-    @PersistenceContext
-    private EntityManager entityManager;
+    
+    // auth database EntityManager
+    @PersistenceContext(unitName = "authPersistenceUnit")
+    private EntityManager authEntityManager;
 
     @Autowired
     private PasswordEncoder passwordEncoder; 
@@ -104,48 +105,48 @@ public class AuthenticationService {
     }
 
     // abandoned
-    public boolean authenticateFromDB(String username, String password) {
-        // naive check for admin credentials
-        if ("admin".equals(username) && "admin".equals(password)) {
-            return true;
-        }
-        String sql = "SELECT password FROM login_users WHERE username = ?";
-        try {
-            Query query = entityManager.createNativeQuery(sql);
-            query.setParameter(1, username);
-            String storedPassword = (String) query.getSingleResult();
-            if (storedPassword != null) {
-                return passwordEncoder.matches(password, storedPassword);
-            }
-        } catch (NoResultException e) {
-            // User not found
-        }
-        return false;
-    }
-
-    @CacheEvict(value = "login_users", allEntries = true)
+    // public boolean authenticateFromDB(String username, String password) {
+    //     // naive check for admin credentials
+    //     if ("admin".equals(username) && "admin".equals(password)) {
+    //         return true;
+    //     }
+    //     String sql = "SELECT password FROM login_users WHERE username = ?";
+    //     try {
+    //         Query query = entityManager.createNativeQuery(sql);
+    //         query.setParameter(1, username);
+    //         String storedPassword = (String) query.getSingleResult();
+    //         if (storedPassword != null) {
+    //             return passwordEncoder.matches(password, storedPassword);
+    //         }
+    //     } catch (NoResultException e) {
+    //         // User not found
+    //     }
+    //     return false;
+    // }
+    
+    @CacheEvict(value = "users", allEntries = true)
     public void createAccountInDB(String username, String password) {
         String encodedPassword = passwordEncoder.encode(password);
-        String sql = "INSERT INTO login_users (username, password) VALUES (?, ?)";
-        Query query = entityManager.createNativeQuery(sql);
+        String sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+        Query query = authEntityManager.createNativeQuery(sql);
         query.setParameter(1, username);
         query.setParameter(2, encodedPassword);
         query.executeUpdate();
     }
 
-    @Cacheable("login_users")
+    @Cacheable("users")
     public List<LoginUser> getAllUsers() {
-        String sql = "SELECT username FROM login_users";
-        Query query = entityManager.createNativeQuery(sql);
+        String sql = "SELECT username FROM users";
+        Query query = authEntityManager.createNativeQuery(sql);
         List<String> usernames = query.getResultList();
         // Map usernames to LoginUser objects
         return usernames.stream().map(LoginUser::new).toList();
     }
 
-    @CacheEvict(value = "login_users", allEntries = true)
+    @CacheEvict(value = "users", allEntries = true)
     public void deleteUser(String username) {
-        String sql = "DELETE FROM login_users WHERE username = ?";
-        Query query = entityManager.createNativeQuery(sql);
+        String sql = "DELETE FROM users WHERE username = ?";
+        Query query = authEntityManager.createNativeQuery(sql);
         query.setParameter(1, username);
         query.executeUpdate();
     }
