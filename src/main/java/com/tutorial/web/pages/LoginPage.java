@@ -54,11 +54,12 @@ public class LoginPage extends WebPage {
                         Set<String> roles = new HashSet<>();
                         if ("admin".equals(usernameValue)) {
                             roles.add("ADMIN");
-                            session.signIn(usernameValue, roles);
+                            // Updated signIn call with token max age (in seconds)
+                            session.signIn(usernameValue, roles, 5);
                             setResponsePage(AdminPage.class);
                         } else {
                             roles.add("USER");
-                            session.signIn(usernameValue, roles);
+                            session.signIn(usernameValue, roles, 5);
                             setResponsePage(HomePage.class);
                         }
                         if (rememberMeValue) {

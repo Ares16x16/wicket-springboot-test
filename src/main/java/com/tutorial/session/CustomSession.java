@@ -10,6 +10,7 @@ public class CustomSession extends WebSession {
     private static final long serialVersionUID = 1L;
     private String username;
     private Set<String> roles;
+    private long tokenExpirationTime;
 
     public CustomSession(Request request) {
         super(request);
@@ -20,15 +21,19 @@ public class CustomSession extends WebSession {
         return (CustomSession) Session.get();
     }
 
-    public void signIn(String username, Set<String> roles) {
+    // New signIn method that accepts token max age in seconds
+    public void signIn(String username, Set<String> roles, int tokenMaxAgeSeconds) {
         this.username = username;
         this.roles = roles;
-        dirty();  // Mark session as dirty
-        bind();   // Ensure session is bound
+        this.tokenExpirationTime = System.currentTimeMillis() + tokenMaxAgeSeconds * 1000L;
+        dirty();
+        bind();
     }
 
+    // Modified isSignedIn to check token expiration
+    //@Override
     public boolean isSignedIn() {
-        return username != null;
+        return username != null && System.currentTimeMillis() < tokenExpirationTime;
     }
 
     public void signOut() {

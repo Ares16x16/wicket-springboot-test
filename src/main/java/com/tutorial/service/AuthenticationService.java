@@ -62,7 +62,7 @@ public class AuthenticationService {
                 cookie.setHttpOnly(true);
                 cookie.setSecure(true);
                 cookie.setPath("/");
-                cookie.setMaxAge(60*60); // 1 hour
+                cookie.setMaxAge(5);
                 response.addCookie(cookie);
                 logger.info("Token set in cookie: {}", token);
                 return true;
