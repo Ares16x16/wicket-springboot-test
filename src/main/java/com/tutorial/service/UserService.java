@@ -4,11 +4,13 @@ import java.util.List;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tutorial.dao.UserDAO;
 import com.tutorial.entity.User;
 
 @Service
+@Transactional
 public class UserService {
     @Autowired
     private UserDAO userDAO;

@@ -5,15 +5,12 @@ import org.springframework.stereotype.Repository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
-import org.springframework.transaction.annotation.Transactional;
-// Added cache annotations
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.CacheEvict;
 
 import com.tutorial.entity.User;
 
 @Repository
-@Transactional
 public class UserDAOImpl implements UserDAO {
 
     @PersistenceContext
