@@ -20,6 +20,9 @@ import java.time.Duration;
 import java.util.HashSet;
 import java.util.Set;
 
+import jakarta.servlet.http.HttpServletResponse;
+import org.apache.wicket.request.cycle.RequestCycle;
+
 public class LoginPage extends WebPage {
     private final TextField<String> username;
     private final PasswordTextField password;
@@ -44,7 +47,8 @@ public class LoginPage extends WebPage {
                 String passwordValue = password.getModelObject();
                 Boolean rememberMeValue = rememberMe.getModelObject();
                 
-                if (authenticationService.authenticate(usernameValue, passwordValue)) {
+                HttpServletResponse servletResponse = (HttpServletResponse) RequestCycle.get().getResponse().getContainerResponse();
+                if (authenticationService.authenticateAndStoreToken(usernameValue, passwordValue, servletResponse)) {
                     try {
                         CustomSession session = CustomSession.get();
                         Set<String> roles = new HashSet<>();
