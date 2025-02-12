@@ -15,6 +15,7 @@ import com.tutorial.web.pages.LoginPage;
 import com.tutorial.web.pages.PersonListDetails;
 import com.tutorial.web.pages.UserDetails;
 import com.tutorial.web.pages.BitcoinPage;
+import com.tutorial.web.pages.ErrorPage;
 
 import org.apache.wicket.authorization.strategies.CompoundAuthorizationStrategy;
 import org.apache.wicket.authorization.strategies.page.SimplePageAuthorizationStrategy;
@@ -22,6 +23,9 @@ import org.apache.wicket.authroles.authorization.strategies.role.RoleAuthorizati
 import org.apache.wicket.Session;
 import org.apache.wicket.request.Request;
 import org.apache.wicket.request.Response;
+import org.apache.wicket.settings.ExceptionSettings;
+import org.apache.wicket.core.request.handler.PageProvider;
+import org.apache.wicket.core.request.handler.RenderPageRequestHandler;
 
 public class WicketApplication extends WebApplication {
 
@@ -62,17 +66,17 @@ public class WicketApplication extends WebApplication {
         // Set the authorization strategy
         getSecuritySettings().setAuthorizationStrategy(authorizationStrategy);
         
-        // Configure error pages
-        getApplicationSettings().setAccessDeniedPage(LoginPage.class);
-        getApplicationSettings().setPageExpiredErrorPage(LoginPage.class);
-
-        // Mount pages
+        // Configure error handling
+        getApplicationSettings().setInternalErrorPage(ErrorPage.class);
+        getExceptionSettings().setUnexpectedExceptionDisplay(ExceptionSettings.SHOW_INTERNAL_ERROR_PAGE);
+        
+        // Mount regular pages
         mountPage("/home", HomePage.class);
         mountPage("/persons", PersonListDetails.class);
         mountPage("/users", UserDetails.class);
         mountPage("/another", BitcoinPage.class);
-
         mountPage("/admin", AdminPage.class);
+        mountPage("/error", ErrorPage.class);
     }
 
     @Override
