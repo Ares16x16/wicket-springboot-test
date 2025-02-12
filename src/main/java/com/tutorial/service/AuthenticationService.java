@@ -1,8 +1,5 @@
 package com.tutorial.service;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.cache.annotation.Cacheable;
@@ -30,16 +27,13 @@ import org.slf4j.LoggerFactory;
 @Service
 @Transactional
 public class AuthenticationService {
-    
-    // Removed native usage of authEntityManager for user functions
-    @PersistenceContext(unitName = "authPersistenceUnit")
-    private EntityManager authEntityManager;
 
     private RestTemplate restTemplate = new RestTemplate();
 
     private static final Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
 
     public boolean authenticateAndStoreToken(String username, String password, HttpServletResponse response) {
+        logger.debug("authenticateAndStoreToken() called with username: {}", username);
         try {
             String url = "http://localhost:9081/api/auth/login";
             HttpHeaders headers = new HttpHeaders();
@@ -98,7 +92,7 @@ public class AuthenticationService {
         return null;
     }
     
-    @CacheEvict(value = "users", allEntries = true)
+    @CacheEvict(value = "loginUsers", allEntries = true)
     public void createAccountInDB(String username, String password) {
         try {
             String url = "http://localhost:9081/api/auth/signup";
@@ -120,7 +114,7 @@ public class AuthenticationService {
         }
     }
 
-    @Cacheable("users")
+    @Cacheable("loginUsers")
     public List<LoginUser> getAllUsers() {
         try {
             String url = "http://localhost:9081/api/auth/users";
@@ -136,7 +130,7 @@ public class AuthenticationService {
         return List.of();
     }
 
-    @CacheEvict(value = "users", allEntries = true)
+    @CacheEvict(value = "loginUsers", allEntries = true)
     public void deleteUser(String username) {
         try {
             String url = "http://localhost:9081/api/auth/user/{username}";

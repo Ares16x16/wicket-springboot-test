@@ -16,15 +16,12 @@ public class UserDAOImpl implements UserDAO {
     @PersistenceContext
     private EntityManager entityManager;
 
-    // Clear caches when saving a new user.
     @Override
     @CacheEvict(value = {"users", "user"}, allEntries = true)
     public User save(User user) {
         entityManager.persist(user);
         return user;
     }
-
-    // Cache the list of all users.
     @Override
     @Cacheable("users")
     public List<User> findAll() {
@@ -39,7 +36,6 @@ public class UserDAOImpl implements UserDAO {
         return query.getResultList();
     }
 
-    // Clear caches when a user is deleted.
     @Override
     @CacheEvict(value = {"users", "user"}, allEntries = true)
     public void deleteById(Long id) {

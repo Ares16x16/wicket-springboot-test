@@ -15,6 +15,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 
 import com.tutorial.entity.User;
+import com.tutorial.model.LoginUser;
 import com.tutorial.service.UserService;
 import com.tutorial.session.CustomSession;
 

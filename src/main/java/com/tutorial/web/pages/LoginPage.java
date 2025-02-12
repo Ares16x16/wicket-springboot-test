@@ -24,6 +24,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.apache.wicket.request.cycle.RequestCycle;
 import jakarta.servlet.http.Cookie;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class LoginPage extends WebPage {
     private final TextField<String> username;
     private final PasswordTextField password;
@@ -35,6 +38,8 @@ public class LoginPage extends WebPage {
     @SpringBean
     private SchedulerService schedulerService;
 
+    private static final Logger logger = LoggerFactory.getLogger(LoginPage.class);
+
     public LoginPage() {
         add(new FeedbackPanel("feedback"));
         username = new TextField<>("username", Model.of(""));
@@ -44,23 +49,25 @@ public class LoginPage extends WebPage {
         Form<Void> form = new Form<Void>("loginForm") {
             @Override
             protected void onSubmit() {
-                String usernameValue = username.getModelObject();
-                String passwordValue = password.getModelObject();
-                Boolean rememberMeValue = rememberMe.getModelObject();
-                
-                HttpServletResponse servletResponse = (HttpServletResponse) RequestCycle.get().getResponse().getContainerResponse();
-                if (authenticationService.authenticateAndStoreToken(usernameValue, passwordValue, servletResponse)) {
-                    try {
+                try {
+                    String usernameValue = username.getModelObject();
+                    String passwordValue = password.getModelObject();
+                    Boolean rememberMeValue = rememberMe.getModelObject();
+                    
+                    HttpServletResponse servletResponse = (HttpServletResponse) RequestCycle.get().getResponse().getContainerResponse();
+
+                    logger.info("Login attempt for user: {}", usernameValue);
+                    
+                    if (authenticationService.authenticateAndStoreToken(usernameValue, passwordValue, servletResponse)) {
                         CustomSession session = CustomSession.get();
                         Set<String> roles = new HashSet<>();
                         if ("admin".equals(usernameValue)) {
                             roles.add("ADMIN");
-                            // Updated signIn call with token max age (seconds)
-                            session.signIn(usernameValue, roles, 60*60);
+                            session.signIn(usernameValue, roles, 60 * 60);
                             setResponsePage(AdminPage.class);
                         } else {
                             roles.add("USER");
-                            session.signIn(usernameValue, roles, 60*60);
+                            session.signIn(usernameValue, roles, 60 * 60);
                             setResponsePage(HomePage.class);
                         }
                         if (rememberMeValue) {
@@ -69,11 +76,11 @@ public class LoginPage extends WebPage {
                             cookie.setMaxAge(60 * 60 * 24);
                             servletResponse.addCookie(cookie);
                         }
-                    } catch (Exception e) {
-                        error("Session initialization failed: " + e.getMessage());
+                    } else {
+                        error("Login failed");
                     }
-                } else {
-                    error("Login failed");
+                } catch (Exception e) {
+                    error("Session initialization failed: " + e.getMessage());
                 }
             }
         };
