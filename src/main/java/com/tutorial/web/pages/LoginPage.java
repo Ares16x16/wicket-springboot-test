@@ -22,6 +22,7 @@ import java.util.Set;
 
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.wicket.request.cycle.RequestCycle;
+import jakarta.servlet.http.Cookie;
 
 public class LoginPage extends WebPage {
     private final TextField<String> username;
@@ -54,16 +55,19 @@ public class LoginPage extends WebPage {
                         Set<String> roles = new HashSet<>();
                         if ("admin".equals(usernameValue)) {
                             roles.add("ADMIN");
-                            // Updated signIn call with token max age (in seconds)
-                            session.signIn(usernameValue, roles, 5);
+                            // Updated signIn call with token max age (seconds)
+                            session.signIn(usernameValue, roles, 60*60);
                             setResponsePage(AdminPage.class);
                         } else {
                             roles.add("USER");
-                            session.signIn(usernameValue, roles, 5);
+                            session.signIn(usernameValue, roles, 60*60);
                             setResponsePage(HomePage.class);
                         }
                         if (rememberMeValue) {
-                            // Do sth
+                            // set useless cookie
+                            Cookie cookie = new Cookie("remember_me", usernameValue);
+                            cookie.setMaxAge(60 * 60 * 24);
+                            servletResponse.addCookie(cookie);
                         }
                     } catch (Exception e) {
                         error("Session initialization failed: " + e.getMessage());

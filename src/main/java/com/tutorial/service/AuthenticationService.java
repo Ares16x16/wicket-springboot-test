@@ -2,12 +2,8 @@ package com.tutorial.service;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
-import jakarta.persistence.NoResultException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.CacheEvict;
@@ -17,12 +13,14 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.web.client.HttpClientErrorException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
+import java.util.Arrays;
 
 import com.tutorial.model.LoginUser;
 
@@ -33,12 +31,9 @@ import org.slf4j.LoggerFactory;
 @Transactional
 public class AuthenticationService {
     
-    // auth database EntityManager
+    // Removed native usage of authEntityManager for user functions
     @PersistenceContext(unitName = "authPersistenceUnit")
     private EntityManager authEntityManager;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder; 
 
     private RestTemplate restTemplate = new RestTemplate();
 
@@ -85,7 +80,6 @@ public class AuthenticationService {
             ResponseEntity<Boolean> response = restTemplate.exchange(new URI(url), HttpMethod.GET, request, Boolean.class);
             
             logger.info("Token validation response status: {}", response.getStatusCode());
-            
             return response.getStatusCode().is2xxSuccessful() && Boolean.TRUE.equals(response.getBody());
         } catch (Exception e) {
             logger.error("Error during token validation", e);
@@ -103,51 +97,55 @@ public class AuthenticationService {
         }
         return null;
     }
-
-    // abandoned
-    // public boolean authenticateFromDB(String username, String password) {
-    //     // naive check for admin credentials
-    //     if ("admin".equals(username) && "admin".equals(password)) {
-    //         return true;
-    //     }
-    //     String sql = "SELECT password FROM login_users WHERE username = ?";
-    //     try {
-    //         Query query = entityManager.createNativeQuery(sql);
-    //         query.setParameter(1, username);
-    //         String storedPassword = (String) query.getSingleResult();
-    //         if (storedPassword != null) {
-    //             return passwordEncoder.matches(password, storedPassword);
-    //         }
-    //     } catch (NoResultException e) {
-    //         // User not found
-    //     }
-    //     return false;
-    // }
     
     @CacheEvict(value = "users", allEntries = true)
     public void createAccountInDB(String username, String password) {
-        String encodedPassword = passwordEncoder.encode(password);
-        String sql = "INSERT INTO users (username, password) VALUES (?, ?)";
-        Query query = authEntityManager.createNativeQuery(sql);
-        query.setParameter(1, username);
-        query.setParameter(2, encodedPassword);
-        query.executeUpdate();
+        try {
+            String url = "http://localhost:9081/api/auth/signup";
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            Map<String, String> payload = Map.of("username", username, "password", password);
+            HttpEntity<Map<String, String>> request = new HttpEntity<>(payload, headers);
+            ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
+            
+            if (response.getStatusCode().is2xxSuccessful()) {
+                logger.info("Signup successful for user: {}", username);
+            } else {
+                logger.warn("Signup failed for user: {}. Status: {}", username, response.getStatusCode());
+            }
+        } catch (HttpClientErrorException e) {
+            logger.error("API error during signup for user {}: {}", username, e.getStatusCode());
+        } catch (Exception e) {
+            logger.error("Exception during signup for user: {}", username, e);
+        }
     }
 
     @Cacheable("users")
     public List<LoginUser> getAllUsers() {
-        String sql = "SELECT username FROM users";
-        Query query = authEntityManager.createNativeQuery(sql);
-        List<String> usernames = query.getResultList();
-        // Map usernames to LoginUser objects
-        return usernames.stream().map(LoginUser::new).toList();
+        try {
+            String url = "http://localhost:9081/api/auth/users";
+            ResponseEntity<LoginUser[]> response = restTemplate.getForEntity(url, LoginUser[].class);
+            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+                logger.info("Fetched {} users from auth API", response.getBody().length);
+                return Arrays.asList(response.getBody());
+            }
+            logger.warn("Failed to fetch users. Status: {}", response.getStatusCode());
+        } catch (Exception e) {
+            logger.error("Error fetching users from auth API", e);
+        }
+        return List.of();
     }
 
     @CacheEvict(value = "users", allEntries = true)
     public void deleteUser(String username) {
-        String sql = "DELETE FROM users WHERE username = ?";
-        Query query = authEntityManager.createNativeQuery(sql);
-        query.setParameter(1, username);
-        query.executeUpdate();
+        try {
+            String url = "http://localhost:9081/api/auth/user/{username}";
+            restTemplate.delete(url, username);
+            logger.info("Deleted user {} via API", username);
+        } catch (HttpClientErrorException e) {
+            logger.error("API error when deleting user {}: {}", username, e.getStatusCode());
+        } catch (Exception e) {
+            logger.error("Failed to delete user {} via API", username, e);
+        }
     }
 }
