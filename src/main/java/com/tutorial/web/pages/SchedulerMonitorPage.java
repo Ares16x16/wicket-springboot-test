@@ -21,7 +21,7 @@ import org.apache.wicket.ajax.AjaxSelfUpdatingTimerBehavior;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import java.time.Duration;
 
-import com.tutorial.service.LoggingJob;
+import com.tutorial.scheduler.LoggingJob;
 import com.tutorial.security.AuthenticatedWebPage;
 import com.tutorial.session.CustomSession;
 

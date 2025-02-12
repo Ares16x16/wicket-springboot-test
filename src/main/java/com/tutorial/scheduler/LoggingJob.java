@@ -1,4 +1,4 @@
-package com.tutorial.service;
+package com.tutorial.scheduler;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
